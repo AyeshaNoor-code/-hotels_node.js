@@ -1,0 +1,44 @@
+const express=require('express');
+const router=express.Router();
+const menuItems = require('../menuItems');
+
+
+
+router.post('/', async (req, res) => {
+    try {
+        const newItem = new menuItems(req.body);
+        const savedItem = await newItem.save();
+        res.status(201).json(savedItem);
+    } catch (err) {
+        console.error('Error saving menu item:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get('/', async (req, res) => {
+    try {
+        const data = await menuItems.find(); // Use the correct model name
+        console.log(data);
+        res.status(200).json(data); // Send the fetched data as a response
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+router.get('/:tasteType', async (req, res)=>{
+    try{
+const tasteType = req.params.tasteType;
+if(tasteType=='sweet'|| tasteType=='sour'|| tasteType=='spicy'){
+const response= await menuItems.find({taste: tasteType});//work, because we have defined work in person schema and now we are assigning workType to it
+console.log('Response fetched');
+res.status(200).json(response);
+}
+else{
+res.status(404).json({error: 'Invalid taste Type'});
+}
+}catch(err){
+res.send(404).json({error: 'Invalid taste Type'});
+}
+
+});
+module.exports=router;
