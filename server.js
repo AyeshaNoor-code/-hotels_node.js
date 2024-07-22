@@ -1,14 +1,14 @@
 var express = require('express');
 const app = express();
 const db = require('./db');
-
+require('dotenv').config();
 
 const bodyParser = require('body-parser');
-
+app.use(bodyParser.json());
 
 const personRoutes = require('./routes/personRoutes');
     app.use('/person',personRoutes);// Middleware to parse JSON bodies
-app.use(bodyParser.json());
+
 
 app.get('/', function (req, res) {
     res.send('Welcome to my restaurant...');
