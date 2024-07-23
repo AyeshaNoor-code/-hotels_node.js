@@ -2,12 +2,15 @@ var mongoose = require('mongoose');
 require('dotenv').config();
 // MongoDB connection string
 
-const mongoURL=process.env.MONGODB_URL;
+const mongoURL=process.env.MONGODB_URL; //For online db server
+//const mongoURL=process.env.MONGO_URL;//For local db server
+
+
 mongoose.connect(mongoURL);
 //
 const db = mongoose.connection;
 
-// Log messgit staages to confirm connection status
+
 db.on('connected', () => {
     console.log('Connected to MongoDB Server');
 });
